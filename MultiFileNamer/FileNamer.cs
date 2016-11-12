@@ -1,41 +1,42 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 public class FileNamer 
 {
 
-    private Queue Names;
+    private Queue<String> Names;
 
     /*
      * Takes the change in number, whether the files are to counted up (increment) or down, the base name, and the number of files.
      * */
-    public FileNamer(int Change, Boolean Increment, String BaseName = "", int BaseNumber, ArrayList* DirectoryNames, String DirectoryName)
+    public FileNamer(int Change, Boolean Increment, int BaseNumber, ArrayList DirectoryNames, String DirectoryName, int NumberOfFiles, String BaseName = "") 
     {
-        Names = new Queue();
+        Names = new Queue<String>();
 
         String tempName = "";
 
-        for (int i = 1; i <= Number; i++)
+        for (int i = 1; i <= NumberOfFiles; i++)
         {
-            if (increment)
+            if (Increment)
             {
                 tempName = BaseName + (Change * i) + BaseNumber;
             }
             else
             {
-                tempName = BaseName - (Change * i) + BaseNumber;
+                tempName = BaseName + (-Change * i) + BaseNumber;
             }
             Names.Enqueue(tempName);
             
         }
 
         //If no duplicates, continue
-        if (CheckNamesOk(DirectoryNames))
+        if (CheckNameOk(DirectoryNames))
         {
-            foreach (var i in *list)
+            foreach (var i in DirectoryNames)
             {
-                AssignName(DirectoryName, i);
+                AssignName(DirectoryName, i.ToString());
 
             }
 
@@ -52,20 +53,21 @@ public class FileNamer
      * */
     public void AssignName (String DirectoryName, String FileName)
     {
-        File.Move(DirectoryName + oldFileName, DirectoryName + Names.Dequeue);
+        File.Move(DirectoryName + FileName, DirectoryName + (Names.Peek()));
+        Names.Dequeue();
     }
 
     /*
      * Check For duplicate names, cannot allow another name to exist if we are to rename.
      * */
-     public Boolean CheckNameOk(ArrayList* list)
+     public Boolean CheckNameOk(ArrayList list)
     {
         Boolean ErrorFlag = false;
-        foreach (var i in *list)
+        foreach (var i in list)
         {
             foreach(var j in Names)
             {
-                if (String.Compare(i,j) = 0)
+                if (String.Compare(i.ToString(),j.ToString()) == 0)
                 {
                     ErrorFlag = true;
                     break;
