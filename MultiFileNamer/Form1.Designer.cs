@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectorForm));
             this.ReNameButton = new System.Windows.Forms.Button();
             this.FileTreeView = new System.Windows.Forms.TreeView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.NumericChange = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.IncrementButton = new System.Windows.Forms.RadioButton();
@@ -43,7 +44,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.NumericStartNumber = new System.Windows.Forms.NumericUpDown();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ListViewBox = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.NumericChange)).BeginInit();
@@ -64,6 +64,7 @@
             this.ReNameButton.TabIndex = 1;
             this.ReNameButton.Text = "Re-Name";
             this.ReNameButton.UseVisualStyleBackColor = true;
+            this.ReNameButton.Click += new System.EventHandler(this.ReNameButton_Click);
             // 
             // FileTreeView
             // 
@@ -77,6 +78,13 @@
             this.FileTreeView.TabIndex = 2;
             this.FileTreeView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.FileTreeView_BeforeExpand);
             this.FileTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.FileTreeView_AfterSelect);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "folder.gif");
+            this.imageList1.Images.SetKeyName(1, "dir_file_pic.png");
             // 
             // NumericChange
             // 
@@ -137,6 +145,7 @@
             this.NewNameBox.Name = "NewNameBox";
             this.NewNameBox.Size = new System.Drawing.Size(195, 22);
             this.NewNameBox.TabIndex = 7;
+            this.NewNameBox.TextChanged += new System.EventHandler(this.NewNameBox_TextChanged);
             // 
             // label2
             // 
@@ -153,8 +162,9 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(408, 29);
             this.button2.TabIndex = 9;
-            this.button2.Text = "Toggle Highlighted Files";
+            this.button2.Text = "Toggle All";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // RadioBox
             // 
@@ -214,13 +224,6 @@
             this.splitContainer2.SplitterDistance = 203;
             this.splitContainer2.TabIndex = 14;
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "folder.gif");
-            this.imageList1.Images.SetKeyName(1, "dir_file_pic.png");
-            // 
             // ListViewBox
             // 
             this.ListViewBox.CheckBoxes = true;
@@ -236,6 +239,7 @@
             this.ListViewBox.TabIndex = 0;
             this.ListViewBox.UseCompatibleStateImageBehavior = false;
             this.ListViewBox.View = System.Windows.Forms.View.Details;
+            this.ListViewBox.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewBox_ItemChecked);
             // 
             // columnHeader1
             // 

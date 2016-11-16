@@ -17,15 +17,15 @@ public class FileNamer
 
         String tempName = "";
 
-        for (int i = 1; i <= NumberOfFiles; i++)
+        for (int i = 0; i < NumberOfFiles; i++)
         {
             if (Increment)
             {
-                tempName = BaseName + (Change * i) + BaseNumber;
+                tempName = BaseName + ((Change * i) + BaseNumber);
             }
             else
             {
-                tempName = BaseName + (-Change * i) + BaseNumber;
+                tempName = BaseName + ((-Change * i) + BaseNumber);
             }
             Names.Enqueue(tempName);
             
