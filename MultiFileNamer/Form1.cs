@@ -8,16 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Collections;
 
 namespace MultiFileNamer
 {
     public partial class SelectorForm : Form
     {
+        String CurrentDirectory;
         public SelectorForm()
         {
             InitializeComponent();
             //Populate the File Tree
             PopulateTreeView();
+            CurrentDirectory = "";
         }
 
 
@@ -188,7 +191,7 @@ namespace MultiFileNamer
 
             /// Make sure each child is a folder
             DirectoryInfo info = new DirectoryInfo(@Name);
-
+            CurrentDirectory = Name;
             if (info.Exists)
             {
 
@@ -204,6 +207,95 @@ namespace MultiFileNamer
                     
                 }
 
+            }
+        }
+
+        private void ReNameButton_Click(object sender, EventArgs e)
+        {
+            ///Create multi-file name
+            ///Get selected files from list view box
+            ///
+            ArrayList SelectedNames = new ArrayList();
+
+            foreach(ListViewItem itemName in ListViewBox.Items)
+            {
+                if (itemName.Checked == true) {
+                    SelectedNames.Add(itemName.Text);
+                    Console.Out.WriteLine(itemName.Text);
+                }
+            }
+            if (SelectedNames.Count > 0) {
+                ///Create a filenamer
+                ///
+                FileNamer ChangeFiles = new FileNamer(Decimal.ToInt32(NumericChange.Value), IncrementButton.Checked, Decimal.ToInt32(NumericStartNumber.Value), SelectedNames, CurrentDirectory, SelectedNames.Count, @NewNameBox.Text);
+                
+            }
+            ////Redo listviewbox
+            ListViewBox.Items.Clear();
+            DirectoryInfo info = new DirectoryInfo(CurrentDirectory);
+            
+            if (info.Exists)
+            {
+
+
+                //Update the FileListBox with items!
+                foreach (FileInfo newFile in info.GetFiles())
+                {
+
+                    //newItem = new ListViewItem(childNode.Text);
+                    ListViewBox.Items.Add(newFile.Name);
+
+                }
+
+            }
+        }
+
+        private void NewNameBox_TextChanged(object sender, EventArgs e)
+        {
+            CheckEnabled();
+        }
+
+        private void ListViewBox_ItemChecked(object sendor, System.Windows.Forms.ItemCheckedEventArgs e)
+        {
+            if (ListViewBox.FocusedItem != null)
+            {
+                CheckEnabled();
+                //Do something
+            }
+            
+        }
+
+        private void CheckEnabled()
+        {
+            ReNameButton.Enabled = false;
+            foreach (ListViewItem itemName in ListViewBox.Items)
+            {
+                if (itemName.Checked == true)
+                {
+                    ReNameButton.Enabled = true;
+                    break;
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Boolean FindFalse = false;
+            foreach (ListViewItem a in ListViewBox.Items)
+            {
+                
+                if (a.Checked == false)
+                {
+                    FindFalse = true;
+                    break;
+                }
+                a.Checked = false;
+            }
+            if (FindFalse == true) {
+                foreach (ListViewItem a in ListViewBox.Items)
+                {
+                    a.Checked = true;
+                }
             }
         }
     }
